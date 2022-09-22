@@ -1,0 +1,11 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Ваш профиль</h1>
+    {% else %}
+        <h2>Как вы нашли путь сюда?</h2>
+        <p>Пожалуйста, авторизируйтесь на сайте, чтобы получить доступ к этой странице!</p>
+    {% endif %}
+{% endblock %}

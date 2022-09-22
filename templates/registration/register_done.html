@@ -1,0 +1,8 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Здравствуй!</h1>
+        <p>Твой профиль создан. Теперь ты можешь <a href="{% url 'login' %}">войти</a>.</p>
+    </div>
+{% endblock %}
