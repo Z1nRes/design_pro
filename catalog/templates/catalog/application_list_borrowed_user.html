@@ -1,0 +1,15 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Заявки{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Ваши заявки:</h1>
+        {% if application_list %}
+            <ul>
+                {% for ap in models.application %}
+                    <li><a href="#">{{ ap.application.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

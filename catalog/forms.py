@@ -3,6 +3,7 @@ from django import forms
 from django.core.validators import validate_slug, RegexValidator, EmailValidator
 
 
+
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput,
                                validators=[RegexValidator(r'[a-zA-Z\-]', 'В логине доступны только латинские символы')],
@@ -36,3 +37,4 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['checkbox'] == False:
             raise forms.ValidationError('Подтвердите обработку персональных данных')
         return cd['checkbox']
+

@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
 from .forms import UserRegistrationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Application
+from django.views import generic
 
 # Create your views here.
 def index(request):
@@ -25,3 +28,9 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
+
+class LoanedApplicationsByUserListView(LoginRequiredMixin, generic.ListView):
+    model = Application
+    template_name = "catalog/application_list_borrowed_user.html"
+    paginate_by = 10
+    context_object_name = 'application_list'

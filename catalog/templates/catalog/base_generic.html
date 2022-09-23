@@ -17,6 +17,9 @@
       <div class="container d-flex flex-wrap">
         <ul class="nav me-auto">
           <li class="nav-item"><a href="{% url 'index' %}" class="nav-link link-dark px-2 active" aria-current="page">Главная</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item"><a href="{% url 'my-applications' %}" class="nav-link link-dark px-2 active" aria-current="page">Мои заявки</a></li>
+          {% endif %}
         </ul>
         {% if user.is_authenticated %}
           <ul class="nav">
