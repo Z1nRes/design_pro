@@ -4,6 +4,7 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Ваш профиль</h1>
+    <a href="{% url 'create' %}"><button class="btn btn-primary">Оставить заявку</button></a>
     {% else %}
         <h2>Как вы нашли путь сюда?</h2>
         <p>Пожалуйста, авторизируйтесь на сайте, чтобы получить доступ к этой странице!</p>

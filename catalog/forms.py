@@ -1,6 +1,8 @@
 from .models import User
 from django import forms
 from django.core.validators import validate_slug, RegexValidator, EmailValidator
+from .models import Application
+from django.forms import ModelForm
 
 
 
@@ -37,4 +39,10 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['checkbox'] == False:
             raise forms.ValidationError('Подтвердите обработку персональных данных')
         return cd['checkbox']
+
+
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['title', 'summary', 'category', 'image']
 

@@ -1,5 +1,17 @@
 {% extends "catalog/base_generic.html" %}
 {% block title %}DesignPro{% endblock %}
 {% block content %}
-    <h1>Главная страница</h1>
+    <div class="container">
+        <h1>Главная страница</h1>
+        <p>
+        Число заявок, принятых в работу: {{ num_applications_i }}
+        </p>
+
+            <div class="container">
+                    {% for app in application_list %}
+                        {{ app.title }}
+                    {% endfor %}
+            </div>
+
+    </div>
 {% endblock %}

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'bootstrap4',
+    'django_filters',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [
@@ -130,4 +132,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'profile'
 
 AUTH_USER_MODEL = 'catalog.User'
-

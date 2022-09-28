@@ -39,25 +39,27 @@ def validate_image(fieldfile_obj):
 
 
 class Application(models.Model):
-    title = models.CharField(max_length=200, help_text="Введите название заявки")
-    summary = models.TextField(max_length=1000, help_text="Опишите свою заявку здесь")
-    caterogy = models.ForeignKey('Category', help_text='Выберите категория для заявки', on_delete=models.SET_NULL,
-                                 null=True)
+    title = models.CharField(max_length=200, help_text="Введите название заявки", verbose_name='Название')
+    summary = models.TextField(max_length=1000, help_text="Опишите свою заявку здесь", verbose_name='Описание')
+
+    category = models.ManyToManyField('Category', help_text='Выберите категория для заявки', verbose_name='Категория')
+
     image = models.ImageField(upload_to="images/", help_text="Максимальный размер изображения 2MB",
-                              validators=[validate_image])
+                              validators=[validate_image], verbose_name='Изображение')
     time_stamp = models.DateTimeField(default=timezone.now())
 
     status_application = (
         ('n', 'Новая'),
-        ('i', 'В процессе'),
+        ('i', 'Принято в работу'),
         ('p', 'Выполнено'),
     )
 
     status = models.CharField(max_length=100, choices=status_application, blank=True, default="n")
-    borrower = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+    borrower = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True, )
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('profile')
+

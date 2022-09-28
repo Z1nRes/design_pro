@@ -1,0 +1,9 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Детали заявки{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>{{ application.title }}</h1>
+        <p>{{ application.summary }}</p></br>
+        <a href="{% url 'delete' application.pk %}">Удалить?</a>
+    </div>
+{% endblock %}

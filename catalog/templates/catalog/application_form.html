@@ -1,0 +1,14 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Добавление заявки{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Разместить заявку:</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Создать" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}

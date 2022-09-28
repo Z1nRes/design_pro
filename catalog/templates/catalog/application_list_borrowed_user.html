@@ -1,15 +1,25 @@
 {% extends "catalog/base_generic.html" %}
 {% block title %}Заявки{% endblock %}
+{% load bootstrap %}
 
 {% block content %}
     <div class="container">
         <h1>Ваши заявки:</h1>
-        {% if application_list %}
+        <form method="get">
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+        {% if user_application_list %}
             <ul>
-                {% for ap in models.application %}
-                    <li><a href="#">{{ ap.application.title }}</a></li>
+                {% for ap in filter.qs %}
+                    <li>
+                        <h3><a href="{% url 'application-detail' ap.pk %}">{{ ap.title }} </a>({{ap.time_stamp}})</h3>
+                        <p>Категория - {{ap.category}}</br>{{ap.summary}}</p>
+                    </li>
                 {% endfor %}
             </ul>
+        {% else %}
+            <p>У вас пока нет заявок.</p>
         {% endif %}
     </div>
 {% endblock %}
