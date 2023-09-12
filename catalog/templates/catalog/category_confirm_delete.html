@@ -1,0 +1,11 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Удалить категорию{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Удалить категорию {{ category.name }}?</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" value="Да, удалить" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}

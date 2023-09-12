@@ -5,16 +5,22 @@
 {% block content %}
     <div class="container">
         <h1>Ваши заявки:</h1>
-        <form method="get">
-            {{ filter.form|bootstrap }}
-            <button type="submit" class="btn btn-primary">Найти</button>
-        </form>
+
+        <div class="d-flex flex-row justify-content-between mt-4">
+            <form class="d-flex flex-row justify-content-between filter-form" method="get">
+                {{ filter.form|bootstrap }}
+                <button type="submit" class="btn btn-primary ms-4" height="30px">Найти</button>
+            </form>
+            <a href="{% url 'create' %}"><button class="btn btn-primary">Оставить заявку</button></a>
+        </div>
+
+
         {% if user_application_list %}
-            <ul>
+            <ul class="mt-4">
                 {% for ap in filter.qs %}
                     <li>
                         <h3><a href="{% url 'application-detail' ap.pk %}">{{ ap.title }} </a>({{ap.time_stamp}})</h3>
-                        <p>Категория - {{ap.category}}</br>{{ap.summary}}</p>
+                        <p>Категория - {{ap.category }}</br>{{ap.summary}}</p>
                     </li>
                 {% endfor %}
             </ul>

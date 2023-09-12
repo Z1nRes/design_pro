@@ -1,7 +1,7 @@
 from .models import User
 from django import forms
 from django.core.validators import validate_slug, RegexValidator, EmailValidator
-from .models import Application
+from .models import Application, Category
 from django.forms import ModelForm
 
 
@@ -46,3 +46,20 @@ class ApplicationForm(forms.ModelForm):
         model = Application
         fields = ['title', 'summary', 'category', 'image']
 
+
+class updateAdminForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['title', 'summary', 'category', 'image', 'time_stamp', 'status', 'borrower']
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+
+
+class updateAdminCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']

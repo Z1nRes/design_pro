@@ -1,0 +1,17 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Админ редактирование{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+        <h1 class="mt-4 mb-4">Редактирование(админ): <a href="{% url 'admin_panel' %}">Вернуться</a></h1>
+        <form class="d-flex flex-column" method="post" id="update-admin">
+            {% csrf_token %}
+            {{ form }}
+            <button form="update-admin" type="submit" class="btn btn-primary mt-4 mb-4">Изменить</button>
+        </form>
+
+    {% else %}
+        <h2>У вас недостаточно прав для использования этой страницы</h2>
+        <p>Пожалуйста, авторизируйтесь на сайте как админ, чтобы получить доступ к этой странице!</p>
+    {% endif %}
+{% endblock %}

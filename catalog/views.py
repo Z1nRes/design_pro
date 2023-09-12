@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
-from .forms import UserRegistrationForm, ApplicationForm
+from .forms import UserRegistrationForm, CategoryForm, ApplicationForm, updateAdminForm, updateAdminCategoryForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Application
+from .models import Application, Category
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .filters import ApplicationFilter
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -18,6 +19,52 @@ def index(request):
 
 def profile(request):
     return render(request, 'catalog/profile.html',)
+
+
+def adminPanel(request):
+    context = {
+        'applications': Application.objects.all().order_by('-id')
+    }
+
+    return render(request, 'catalog/admin_panel.html', context)
+
+
+def updateAdmin(request, pk):
+    application = Application.objects.get(pk=pk)
+    context = {
+        'get_application': application,
+        'form': updateAdminForm(instance=application),
+    }
+
+    if request.method == 'POST':
+        form = updateAdminForm(request.POST, instance=application)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'catalog/update_admin.html', context)
+
+
+def updateAdminCategory(request, pk):
+    category = Category.objects.get(pk=pk)
+    context = {
+        'get_category': category,
+        'form': updateAdminCategoryForm(instance=category),
+    }
+
+    if request.method == 'POST':
+        form = updateAdminCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'catalog/update_admin_category.html', context)
+
+
+def adminPanelCategory(request):
+    context = {
+        'category': Category.objects.all().order_by('-id')
+    }
+
+    return render(request, 'catalog/admin_panel_category.html', context)
 
 
 def register(request):
@@ -55,7 +102,7 @@ class LoanedApplicationsByUserListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        return Application.objects.filter(borrower=self.request.user)
+        return Application.objects.filter(borrower=self.request.user).order_by('-id')
 
 
 class ApplicationDetailView(generic.DetailView):
@@ -66,7 +113,7 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
     model = Application
     form_class = ApplicationForm
     template_name = "catalog/application_form.html"
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('my-applications')
 
     def form_valid(self, form):
         fields = form.save(commit=True)
@@ -78,3 +125,20 @@ class ApplicationCreate(LoginRequiredMixin, CreateView):
 class ApplicationDelete(LoginRequiredMixin, DeleteView):
     model = Application
     success_url = reverse_lazy('my-applications')
+
+
+class CreateCategory(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = "catalog/category_form.html"
+    success_url = reverse_lazy('admin_panel_category')
+
+    def form_valid(self, form):
+        fields = form.save(commit=True)
+        fields.save()
+        return super().form_valid(form)
+
+
+class adminPanelCategoryDelete(LoginRequiredMixin, DeleteView):
+    model = Category
+    success_url = reverse_lazy('admin_panel_category')

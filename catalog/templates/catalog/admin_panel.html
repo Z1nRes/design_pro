@@ -1,0 +1,45 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Админ панель{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+        <h1 class="mt-4 mb-4">Админ панель</h1>
+
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">summary</th>
+            <th scope="col">category</th>
+            <th scope="col">image</th>
+            <th scope="col">time_stamp</th>
+            <th scope="col">status</th>
+            <th scope="col">borrower</th>
+            <th scope="col">Ред</th>
+            <th scope="col">Уд</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ap in applications %}
+            <tr>
+                <th>{{ap.id}}</th>
+                <td>{{ap.title}}</td>
+                <td>{{ap.summary}}</td>
+                <td>{{ap.category}}</td>
+                <td>{{ap.image}}</td>
+                <td>{{ap.time_stamp}}</td>
+                <td>{{ap.status}}</td>
+                <td>{{ap.borrower}}</td>
+                <td><a href="{% url 'update-admin' ap.id %}">Ред</a></td>
+                <td><a href="{% url 'delete' ap.id %}">Уд</a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+        <h2>У вас недостаточно прав для использования этой страницы</h2>
+        <p>Пожалуйста, авторизируйтесь на сайте, чтобы получить доступ к этой странице!</p>
+    {% endif %}
+{% endblock %}

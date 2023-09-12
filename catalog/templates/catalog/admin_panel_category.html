@@ -1,0 +1,33 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Админ панель категорий{% endblock %}
+
+{% block content %}
+    {% if user.is_superuser %}
+        <h1 class="mt-4 mb-4 d-flex justify-content-between"><span>Админ панель категорий</span><a href="{% url 'create-category' %}"><button class="btn btn-primary">Создать категорию</button></a></h1>
+
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">Ред</th>
+            <th scope="col">Уд</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ct in category %}
+            <tr>
+                <th>{{ct.id}}</th>
+                <td>{{ct.name}}</td>
+                <td><a href="{% url 'update-admin-category' ct.id %}">Ред</a></td>
+                <td><a href="{% url 'delete-category' ct.id %}">Уд</a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+        <h2>У вас недостаточно прав для использования этой страницы</h2>
+        <p>Пожалуйста, авторизируйтесь на сайте, чтобы получить доступ к этой странице!</p>
+    {% endif %}
+{% endblock %}
