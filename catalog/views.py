@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
-from .forms import UserRegistrationForm, CategoryForm, ApplicationForm, updateAdminForm, updateAdminCategoryForm
+from .forms import UserRegistrationForm, CategoryForm, ApplicationForm, updateAdminForm, updateAdminCategoryForm, \
+    updateStatusInForm, updateStatusDoneForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Application, Category
 from django.views import generic
@@ -13,8 +14,9 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 def index(request):
     num_applications_i = Application.objects.all().filter(status='i').count()
+    applications = Application.objects.all().filter(status='d').order_by('-pk')[:4]
 
-    return render(request, 'catalog/index.html', context={'num_applications_i': num_applications_i})
+    return render(request, 'catalog/index.html', context={'num_applications_i': num_applications_i, 'applications': applications})
 
 
 def profile(request):
@@ -44,6 +46,33 @@ def updateAdmin(request, pk):
     return render(request, 'catalog/update_admin.html', context)
 
 
+class updateStatusIn(LoginRequiredMixin, UpdateView):
+    model = Application
+    form_class = updateStatusInForm
+    template_name = "catalog/update-status.html"
+    success_url = reverse_lazy('admin_panel')
+
+    def form_valid(self, form):
+        fields = form.save(commit=True)
+        fields.status = "i"
+        fields.save()
+        return super().form_valid(form)
+
+
+class updateStatusDone(LoginRequiredMixin, UpdateView):
+    model = Application
+    form_class = updateStatusDoneForm
+    template_name = "catalog/update-status.html"
+    success_url = reverse_lazy('admin_panel')
+
+    def form_valid(self, form):
+        fields = form.save(commit=True)
+        fields.design_done = form.cleaned_data['design_done']
+        fields.status = "d"
+        fields.save()
+        return super().form_valid(form)
+
+
 def updateAdminCategory(request, pk):
     category = Category.objects.get(pk=pk)
     context = {
@@ -54,7 +83,7 @@ def updateAdminCategory(request, pk):
     if request.method == 'POST':
         form = updateAdminCategoryForm(request.POST, instance=category)
         if form.is_valid():
-            form.save()
+            form.save(commit=True)
 
     return render(request, 'catalog/update_admin_category.html', context)
 
@@ -88,7 +117,6 @@ class ApplicationList(generic.ListView):
     model = Application
     paginate_by = 4
     context_object_name = 'application_list'
-    #Не могу выдать весь список на главную страницу
 
 
 class LoanedApplicationsByUserListView(LoginRequiredMixin, generic.ListView):

@@ -2,14 +2,30 @@
 {% block title %}DesignPro{% endblock %}
 {% block content %}
     <div class="container">
-        <h1>Главная страница</h1>
+        <h1 class="mt-4">Главная страница</h1>
         <p>
         Число заявок, принятых в работу: {{ num_applications_i }}
         </p>
 
-            <div class="container">
-                    {% for app in application_list %}
-                        {{ app.title }}
+            <div class="container mt-5 mb-5">
+                    {% for app in applications %}
+                        <div class="mt-5 d-flex">
+                            <div class="border border-info">
+                                {% if app.design_done %}
+                                    <img src="{{ app.design_done.url }}" width="500px" height="500px" alt="error">
+                                {% else %}
+                                    Изображение отсутсвует!
+                                {% endif %}
+                            </div>
+
+                            <div class=" border border-info pe-5 pt-4">
+                                <h2 class="ms-2">{{ app.title }}</h2>
+                                <p class="ms-4">Категория - {{ app.category.first }}</p>
+                                <p class="ms-4">{{ app.time_stamp }}</p>
+                            </div>
+
+                        </div>
+
                     {% endfor %}
             </div>
 

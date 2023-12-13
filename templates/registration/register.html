@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Создать аккаунт</h1>
         <p>Пожалуйста, заполните форму:</p>
-        <form action="." method="post">
+        <form action="." method="post" novalidate>
             {{ user_form.as_p }}
             {% csrf_token %}
             <p><input type="submit" value="Создать"></p>

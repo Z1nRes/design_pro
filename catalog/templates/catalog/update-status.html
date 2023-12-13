@@ -1,0 +1,16 @@
+{% extends "catalog/base_generic.html" %}
+{% block title %}Update status{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Изменение статуса</h1>
+        <form method="post" id="update-status" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <button form="update-status" type="submit" class="btn btn-primary mt-4 mb-4">Изменить</button>
+        </form>
+    {% else %}
+        <h2>Как вы нашли путь сюда?</h2>
+        <p>Пожалуйста, авторизируйтесь на сайте, чтобы получить доступ к этой странице!</p>
+    {% endif %}
+{% endblock %}

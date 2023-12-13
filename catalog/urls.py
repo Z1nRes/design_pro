@@ -14,6 +14,8 @@ urlpatterns = [
 
     path('admin-panel', views.adminPanel, name='admin_panel'),
     re_path(r'^application/(?P<pk>\d+)/update$', views.updateAdmin, name='update-admin'),
+    re_path(r'^application/(?P<pk>\d+)/update-status-i$', views.updateStatusIn.as_view(), name='update-status-i'),
+    re_path(r'^application/(?P<pk>\d+)/update-status-d$', views.updateStatusDone.as_view(), name='update-status-d'),
 
     path('admin-panel-category', views.adminPanelCategory, name='admin_panel_category'),
     re_path(r'^category/(?P<pk>\d+)/update$', views.updateAdminCategory, name='update-admin-category'),

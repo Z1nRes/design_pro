@@ -7,6 +7,16 @@
         <form class="d-flex flex-column" method="post" id="update-admin">
             {% csrf_token %}
             {{ form }}
+            <label>Статус (Меняет отдельно от остальных полей формы!)</label>
+            <div>
+                <button>
+                    <a href="update-status-i" style="text-decoration: none; color: black;">Принято в работу</a>
+                </button>
+                |
+                <button>
+                    <a href="update-status-d" style="text-decoration: none; color: black;">Выполнено</a>
+                </button>
+            </div>
             <button form="update-admin" type="submit" class="btn btn-primary mt-4 mb-4">Изменить</button>
         </form>
 

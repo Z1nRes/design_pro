@@ -51,15 +51,24 @@ class Application(models.Model):
     status_application = (
         ('n', 'Новая'),
         ('i', 'Принято в работу'),
-        ('p', 'Выполнено'),
+        ('d', 'Выполнено'),
     )
 
     status = models.CharField(max_length=100, choices=status_application, blank=True, default="n")
     borrower = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True, )
+
+    comment = models.CharField(max_length=500, blank=True)
+    design_done = models.ImageField(upload_to="images/",
+                                    validators=[validate_image],
+                                    help_text="Максимальный размер изображения 2MB",
+                                    blank=True,
+                                    null=True,
+                                    )
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('profile')
+
 

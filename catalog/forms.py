@@ -5,7 +5,6 @@ from .models import Application, Category
 from django.forms import ModelForm
 
 
-
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput,
                                validators=[RegexValidator(r'[a-zA-Z\-]', 'В логине доступны только латинские символы')],
@@ -50,7 +49,19 @@ class ApplicationForm(forms.ModelForm):
 class updateAdminForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['title', 'summary', 'category', 'image', 'time_stamp', 'status', 'borrower']
+        fields = ['title', 'summary', 'category', 'image']
+
+
+class updateStatusInForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['comment']
+
+
+class updateStatusDoneForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['design_done']
 
 
 class CategoryForm(forms.ModelForm):
@@ -63,3 +74,15 @@ class updateAdminCategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
+
+
+class ChangeStatusInWork(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['comment']
+
+
+class ChangeStatusDone(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['design_done']
